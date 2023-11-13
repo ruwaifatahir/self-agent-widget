@@ -1,4 +1,8 @@
-import { Input as ChakraInput, InputGroup } from "@chakra-ui/react";
+import {
+  Input as ChakraInput,
+  InputGroup,
+  useColorModeValue,
+} from "@chakra-ui/react";
 import React, { useEffect } from "react";
 import { useFormContext } from "react-hook-form";
 import { useDebounce } from "usehooks-ts";
@@ -25,6 +29,8 @@ const Input = () => {
 
   const validations = useValidations(debouncedName);
 
+  const inputBorderColor = useColorModeValue("blackAlpha.600", "white");
+
   useEffect(() => {
     const triggerFieldValidation = async () => {
       if (debouncedName) await trigger("name");
@@ -36,7 +42,7 @@ const Input = () => {
     <InputGroup>
       <ChakraInput
         py={7}
-        borderColor="blackAlpha.600"
+        borderColor={inputBorderColor}
         rounded="md"
         {...register("name", validations)}
         isInvalid={!!errors.name}

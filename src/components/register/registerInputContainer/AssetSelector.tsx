@@ -1,5 +1,10 @@
 import { useRegisterStore } from "@/stores/useRegisterStore";
-import { InputRightElement, Select, Spinner } from "@chakra-ui/react";
+import {
+  InputRightElement,
+  Select,
+  Spinner,
+  useColorModeValue,
+} from "@chakra-ui/react";
 import { useFormContext } from "react-hook-form";
 
 const AssetSelector = () => {
@@ -13,6 +18,11 @@ const AssetSelector = () => {
     isValidChain,
   } = useRegisterStore();
 
+  const selectBorderColor = useColorModeValue(
+    "blackAlpha.600",
+    "whiteAlpha.600"
+  );
+
   return (
     <InputRightElement h="full" mr={2} w={{ base: "25", lg: "15%" }}>
       {isValidating ? (
@@ -21,7 +31,8 @@ const AssetSelector = () => {
         <Select
           {...register("token")}
           isDisabled={isSubmitting || isRegistering || !isValidChain}
-          fontSize={{ base: "xs" }}
+          fontSize={{ base: "xs", md: "sm" }}
+          borderColor={selectBorderColor}
         >
           <option value="self">SELF</option>
           <option value="usdt">USDT</option>

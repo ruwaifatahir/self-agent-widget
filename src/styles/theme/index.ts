@@ -1,18 +1,29 @@
 import { extendTheme } from "@chakra-ui/react";
 
 export const theme = extendTheme({
+  initialColorMode: "light",
+  useSystemColorMode: false,
+
+  semanticTokens: {
+    colors: {
+      background: {
+        default: "white",
+        _dark: "black",
+        
+      },
+    },
+  },
   fonts: {
     body: "var(--font-inter)",
   },
-  components: {
-    styles: {
-      global: {
-        "html, body": {
-          bg: "rgba(239, 207, 227, 0.2)",
-        },
+  styles: {
+    global: {
+      "html, body": {
+        bg: "background",
       },
     },
-
+  },
+  components: {
     Button: {
       variants: {
         primary: {
