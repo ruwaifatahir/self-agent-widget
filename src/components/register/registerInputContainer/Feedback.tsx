@@ -25,7 +25,11 @@ const Feedback = () => {
 const ErrorMessage = ({ errors }: any) => {
   return (
     <HStack justify="space-between" w="full">
-      <Text fontSize="sm" color="red.600" fontWeight="medium">
+      <Text
+        fontSize={{ base: "2xs", md: "sm" }}
+        color="red.600"
+        fontWeight="medium"
+      >
         <Icon as={WarningIcon} boxSize={4} mr={2} mb={0.5} />
 
         {errors.name.message as any}

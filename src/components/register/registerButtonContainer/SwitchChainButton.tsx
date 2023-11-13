@@ -10,7 +10,8 @@ const SwitchChainButton = () => {
   return (
     <Button
       w="full"
-      py={8}
+      py={{ base: 6, md: 8 }}
+      fontSize={{ base: "sm", md: "lg" }}
       variant="primary"
       isDisabled={!switchNetwork || isLoading}
       isLoading={isLoading}

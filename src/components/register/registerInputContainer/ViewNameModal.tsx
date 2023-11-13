@@ -19,7 +19,7 @@ interface Props {
 const ViewNameModal = ({ isOpen, onClose }: Props) => {
   const { ownedNames } = useRegisterStore();
   return (
-    <Modal isOpen={isOpen} onClose={onClose} size="sm">
+    <Modal isOpen={isOpen} onClose={onClose} size={{ base: "xs", md: "sm" }}>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>Owned Names</ModalHeader>

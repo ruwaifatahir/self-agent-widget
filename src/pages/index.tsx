@@ -5,7 +5,12 @@ import { RegisterForm, HomeImage } from "@/components/register";
 
 export default function Home() {
   return (
-    <VStack w="full" maxW="70%" mt="20" spacing={20}>
+    <VStack
+      w="full"
+      maxW={{ base: "98%", lg: "40%" }}
+      mt={{ base: "10", lg: "20" }}
+      spacing={{ base: 10, lg: 20 }}
+    >
       <HomeImage />
       <RegisterForm />
     </VStack>

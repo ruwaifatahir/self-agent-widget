@@ -7,6 +7,7 @@ import {
   SELF_NFT_ADDR,
 } from "@/utils/constants/addresses";
 import { formatBigIntToNumber } from "@/utils/helpers";
+import { Text } from "@chakra-ui/react";
 import React from "react";
 import { useFormContext } from "react-hook-form";
 import { useDebounce } from "usehooks-ts";
@@ -49,8 +50,15 @@ const Price = () => {
 
   if (!debouncedName || debouncedName?.length == 0) return null;
   if (!isValidChain) return null;
-  if (selectedTkn === "self") return <>{`Price: ${price} $SELF`}</>;
-  return <>{`Price: ${priceInPayTkn} ${selectedTkn.toUpperCase()}`}</>;
+  if (selectedTkn === "self")
+    return (
+      <Text fontSize={{ base: "xs", md: "sm" }}>{`Price: ${price} $SELF`}</Text>
+    );
+  return (
+    <Text
+      fontSize={{ base: "xs", md: "sm" }}
+    >{`Price: ${priceInPayTkn} ${selectedTkn.toUpperCase()}`}</Text>
+  );
 };
 
 export default Price;
