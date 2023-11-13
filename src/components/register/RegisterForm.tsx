@@ -1,7 +1,13 @@
 import { useEffect } from "react";
 import { VStack } from "@chakra-ui/react";
 import { FormProvider, useForm } from "react-hook-form";
-import { useContractWrite, useWaitForTransaction } from "wagmi";
+import {
+  Address,
+  useAccount,
+  useContractRead,
+  useContractWrite,
+  useWaitForTransaction,
+} from "wagmi";
 
 //---------------Local Imports--------------------
 import {
@@ -12,10 +18,12 @@ import { SelectedTokenType, useRegisterStore } from "@/stores/useRegisterStore";
 import {
   PAY_TKN_ADDRESSES,
   SELF_NFT_ADDON_ADDR,
+  SELF_NFT_ADDR,
 } from "@/utils/constants/addresses";
 import { selfAddonAbi } from "@/abi/selfAddonAbi";
 import { useWeb3ModalState } from "@web3modal/wagmi/react";
 import { useRouter } from "next/router";
+import { selfNftAbi } from "@/abi/selfNftAbi";
 
 const CHAIN_ID = process.env.NEXT_PUBLIC_NETWORK_CHAIN_ID;
 
@@ -23,7 +31,10 @@ const RegisterForm = () => {
   const methods = useForm<{ name: string; token: SelectedTokenType }>({
     mode: "onChange",
   });
-  const { setRegistrationStatus, setIsValidChain } = useRegisterStore();
+
+  const { address, isConnected } = useAccount();
+  const { setRegistrationStatus, setIsValidChain, setOwnedNames } =
+    useRegisterStore();
 
   const { selectedNetworkId } = useWeb3ModalState();
 
@@ -55,6 +66,15 @@ const RegisterForm = () => {
     hash: data?.hash, // Transaction hash to monitor
   });
 
+  const { data: ownedNames = [] } = useContractRead({
+    address: SELF_NFT_ADDR,
+    abi: selfNftAbi,
+    functionName: "getNames",
+    args: [address as Address],
+    enabled: isConnected,
+    watch: isConnected,
+  });
+
   // Determine if the registration is in progress
   const isRegistering = isLoading || isLoadingHash;
 
@@ -68,6 +88,10 @@ const RegisterForm = () => {
   useEffect(() => {
     setIsValidChain(selectedNetworkId == CHAIN_ID);
   }, [selectedNetworkId, setIsValidChain]);
+
+  useEffect(() => {
+    setOwnedNames(ownedNames as string[]);
+  }, [ownedNames, setOwnedNames]);
 
   const onSubmit = () => {
     try {
