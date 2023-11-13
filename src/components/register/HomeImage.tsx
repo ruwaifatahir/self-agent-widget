@@ -7,6 +7,7 @@ const HomeImage = () => {
       alt="Self Crypto"
       height={500}
       width={500}
+      priority
     />
   );
 };

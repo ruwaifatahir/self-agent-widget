@@ -7,9 +7,7 @@ const ViewNames = () => {
 
   return (
     <>
-      <Tooltip hasArrow label="View owned names" placement="top" p={2}>
-        <Button isOpen={isOpen} onOpen={onOpen} />
-      </Tooltip>
+      <Button isOpen={isOpen} onOpen={onOpen} />
       <ViewNameModal isOpen={isOpen} onClose={onClose} />
     </>
   );
