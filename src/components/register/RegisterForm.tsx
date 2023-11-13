@@ -66,7 +66,7 @@ const RegisterForm = () => {
     hash: data?.hash, // Transaction hash to monitor
   });
 
-  const { data: ownedNames = [] } = useContractRead({
+  const { data: ownedNames } = useContractRead({
     address: SELF_NFT_ADDR,
     abi: selfNftAbi,
     functionName: "getNames",

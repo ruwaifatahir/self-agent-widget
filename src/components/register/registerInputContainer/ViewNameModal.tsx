@@ -25,11 +25,13 @@ const ViewNameModal = ({ isOpen, onClose }: Props) => {
         <ModalHeader>Owned Names</ModalHeader>
         <ModalCloseButton />
         <ModalBody pb={6}>
-          {ownedNames.map((name, key) => (
-            <Text key={key} pt={2}>
-              {name}
-            </Text>
-          ))}
+          {ownedNames &&
+            ownedNames.length > 0 &&
+            ownedNames.map((name, key) => (
+              <Text key={key} pt={2}>
+                {name}
+              </Text>
+            ))}
         </ModalBody>
       </ModalContent>
     </Modal>

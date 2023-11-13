@@ -12,7 +12,7 @@ interface RegisterState {
   registrationStatus: RegistrationStatus;
   allowance: number;
   isValidChain: boolean;
-  ownedNames: string[];
+  ownedNames: string[] ;
   setRegistrationStatus: (registrationStatus: RegistrationStatus) => void;
   setAllowance: (allowance: number) => void;
   setIsValidChain: (isValid: boolean) => void;
