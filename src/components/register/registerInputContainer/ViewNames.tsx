@@ -25,7 +25,7 @@ const Button = ({
       <IconButton
         icon={<ViewOffIcon />}
         aria-label="View Names"
-        variant="ghost"
+        variant="outline"
         // onClick={onClose}
       />
     );
@@ -35,7 +35,7 @@ const Button = ({
     <IconButton
       icon={<ViewIcon />}
       aria-label="View Names"
-      variant="ghost"
+      variant="outline"
       onClick={onOpen}
     />
   );

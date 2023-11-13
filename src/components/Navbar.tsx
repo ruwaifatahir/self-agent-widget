@@ -9,7 +9,6 @@ const Navbar = () => {
   const { open: isOpen } = useWeb3ModalState();
 
   const { address, isConnected, isConnecting, isReconnecting } = useAccount();
-  const { toggleColorMode } = useColorMode();
 
   return (
     <HStack w="full" maxW={{ base: "95%", lg: "40%" }} mt={5}>

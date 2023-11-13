@@ -7,7 +7,7 @@ import { wagmiConfig } from "../wagmi";
 
 //----------------Styles----------------
 import "@/styles/globals.css";
-import { ChakraProvider, VStack, useColorModeValue } from "@chakra-ui/react";
+import { ChakraProvider, VStack } from "@chakra-ui/react";
 import { theme } from "@/styles/theme";
 import { Inter } from "next/font/google";
 import { Navbar } from "@/components";
@@ -18,6 +18,7 @@ const inter = Inter({
 
 export default function App({ Component, pageProps }: AppProps) {
   const [mounted, setMounted] = useState(false);
+
   useEffect(() => setMounted(true), []);
 
   return (

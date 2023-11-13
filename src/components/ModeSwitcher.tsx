@@ -3,7 +3,7 @@ import { IconButton, useColorMode } from "@chakra-ui/react";
 
 const ModeSwitcher = () => {
   const { colorMode, toggleColorMode } = useColorMode();
-  console.log(colorMode);
+
   if (colorMode === "light") {
     return (
       <IconButton

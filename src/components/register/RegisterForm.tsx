@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { VStack } from "@chakra-ui/react";
+import { VStack, useColorMode } from "@chakra-ui/react";
 import { FormProvider, useForm } from "react-hook-form";
 import {
   Address,
@@ -38,11 +38,14 @@ const RegisterForm = () => {
 
   const { selectedNetworkId } = useWeb3ModalState();
 
+  const { setColorMode } = useColorMode();
+
   const router = useRouter();
 
   const selectedTkn: SelectedTokenType = methods.watch("token");
   const nameToRegister = methods.watch("name");
   const agentAddress = router.query.agent;
+  const colorMode = router.query.colorMode;
 
   // Construct the registrationData based on registrationType
   const registrationData =
@@ -92,6 +95,12 @@ const RegisterForm = () => {
   useEffect(() => {
     setOwnedNames(ownedNames as string[]);
   }, [ownedNames, setOwnedNames]);
+
+  useEffect(() => {
+    if (colorMode == "light" || colorMode == "dark") {
+      setColorMode(colorMode);
+    }
+  }, [colorMode, setColorMode]);
 
   const onSubmit = () => {
     try {
