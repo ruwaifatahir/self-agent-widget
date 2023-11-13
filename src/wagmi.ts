@@ -1,7 +1,7 @@
-import { createConfig, configureChains, mainnet } from "wagmi";
+import { createConfig, configureChains } from "wagmi";
 import { publicProvider } from "wagmi/providers/public";
 import { createWeb3Modal } from "@web3modal/wagmi/react";
-import { sepolia } from "viem/chains";
+import { sepolia, bsc } from "viem/chains";
 import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
 
 //---------------------Connectors--------------------------
@@ -10,15 +10,20 @@ import { WalletConnectConnector } from "wagmi/connectors/walletConnect";
 import { CoinbaseWalletConnector } from "wagmi/connectors/coinbaseWallet";
 import { walletConnectProvider, EIP6963Connector } from "@web3modal/wagmi";
 
+//Get default chain
+const environment = process.env.NODE_ENV;
+const supportedChains = environment == "development" ? [sepolia] : [bsc];
+const defaultChain = supportedChains[0];
+
 // 1. Get projectId
 const projectId = process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID!;
 
 // 2. Create wagmiConfig
 const { chains, publicClient, webSocketPublicClient } = configureChains(
-  [sepolia],
+  [...supportedChains],
   [
     jsonRpcProvider({
-      rpc: (chain) => ({
+      rpc: () => ({
         http: process.env.NEXT_PUBLIC_RPC_URL!,
       }),
       // priority: 1,
@@ -55,4 +60,4 @@ export const wagmiConfig = createConfig({
 });
 
 // 3. Create modal
-createWeb3Modal({ wagmiConfig, projectId, chains });
+createWeb3Modal({ wagmiConfig, projectId, chains, defaultChain });
