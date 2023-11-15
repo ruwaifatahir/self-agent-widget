@@ -34,8 +34,9 @@ const { chains, publicClient, webSocketPublicClient } = configureChains(
 );
 
 const metadata = {
-  name: "Web3Modal",
-  description: "Web3Modal Example",
+  name: "Self Agent Widget",
+  description:
+    "Widget for Verified Agents to Resell Self Crypto Names and Earn Commission",
   url: "https://web3modal.com",
   icons: ["https://avatars.githubusercontent.com/u/37784886"],
 };
