@@ -15,12 +15,20 @@ import ApproveButton from "./ApproveButton";
 import RegisterButton from "./RegisterButton";
 import { SelectedTokenType, useRegisterStore } from "@/stores/useRegisterStore";
 import { useEffect } from "react";
+import { useAddressStore } from "@/stores/useAddressStore";
+import RefreshAccountButton from "./RefreshAccountButton";
 
 const RegisterButtonContainer = () => {
-  const { address, isConnecting, isConnected, isDisconnected } = useAccount();
+  const {
+    address,
+    isConnecting,
+    isConnected,
+    isDisconnected,
+    connector: activeConnector,
+  } = useAccount();
   const { watch } = useFormContext();
   const { setAllowance, isValidChain } = useRegisterStore();
-
+  const parentAddress = useAddressStore((state) => state.parentAddress);
   const selectedTkn: SelectedTokenType = watch("token");
   const tokenToCheckAllowanceFor =
     selectedTkn === "self" ? SELF_TKN_ADDR : PAY_TKN_ADDRESSES[selectedTkn];
@@ -44,7 +52,14 @@ const RegisterButtonContainer = () => {
   const isNotConnected = isDisconnected || isConnecting;
   const isNotApproved = isConnected && data < 10000;
 
+  const isAddressDifferent = address !== parentAddress;
   if (isNotConnected) return <ConnectButton />;
+  if (
+    parentAddress &&
+    isAddressDifferent &&
+    (activeConnector?.id === "injected" || activeConnector?.id === "eip6963")
+  )
+    return <RefreshAccountButton />;
   if (!isValidChain) return <SwitchChainButton />;
   if (isNotApproved) return <ApproveButton />;
 
