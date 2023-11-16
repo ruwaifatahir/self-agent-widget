@@ -24,23 +24,32 @@ interface IframeRendererProps {
 }
 
 const IframeRenderer = ({ isInjectedWallet, address }: IframeRendererProps) => {
-//   useEffect(() => {
-//     if (!isInjectedWallet) return;
+  //   useEffect(() => {
+  //     if (!isInjectedWallet) return;
 
-//     setTimeout(() => {
-//       document.querySelector("iframe")?.contentWindow?.postMessage(
-//         { type: "updateAccount", account: address },
-//         "*" // replace it with the url of the iframe later
-//       );
-//     }, 2000);
-//   }, [address, isInjectedWallet]);
+  //     setTimeout(() => {
+  //       document.querySelector("iframe")?.contentWindow?.postMessage(
+  //         { type: "updateAccount", account: address },
+  //         "*" // replace it with the url of the iframe later
+  //       );
+  //     }, 2000);
+  //   }, [address, isInjectedWallet]);
 
+  let iframeUrl;
+  const environment = process.env.NODE_ENV;
+
+  if (environment === "production") {
+    iframeUrl =
+      "https://self-agent-widget.vercel.app/?agent=0x14B4a2935fCcd6634e868Dc52c83e76A12eD6ec6";
+  }
+  iframeUrl =
+    "http://localhost:3000/?agent=0x14B4a2935fCcd6634e868Dc52c83e76A12eD6ec6";
   return (
     <>
       <iframe
         height={700}
         width={400}
-        src="http://localhost:3000/?agent=0x14B4a2935fCcd6634e868Dc52c83e76A12eD6ec6"
+        src={iframeUrl}
         // replace the src with the url of the iframe later
       />
     </>
