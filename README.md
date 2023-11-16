@@ -57,7 +57,9 @@ const IframeRenderer: React.FC<IframeRendererProps> = ({
 
 The useEffect hook in the IframeRenderer component is used for sending the connected user address to the widget inside the iframe. This is done to ensure that the widget has the current account address, which is necessary for its functionality. The setTimeout within useEffect introduces a delay, allowing time for the iframe to load and be ready to receive this data. The check for isInjectedWallet ensures that this process only occurs if the connected wallet is injected wallet.
 
-Now let's just pass the boolean indicating if wallet is injected or not and address of connected user.
+**Conclusion:** The purpose is to synchronize the connected account between your application and the widget.
+
+Now let's just pass the boolean indicating if wallet is injected or not and address of connected user. 
 
 ```typescript
   const { connector, address } = useAccount();
@@ -69,6 +71,7 @@ Now let's just pass the boolean indicating if wallet is injected or not and addr
         }
       />
 ```
+
 
 Check the entire code for widget integration [here](https://github.com/selfcrypto/self-examples/tree/main/agent-widget-integration/wagmi-viem)
 
