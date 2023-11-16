@@ -1,6 +1,6 @@
+import { useEffect, useState } from "react";
 import { erc20ABI, useAccount, useContractRead } from "wagmi";
 import { Address, formatEther } from "viem";
-import { useWeb3ModalState } from "@web3modal/wagmi/react";
 import { useFormContext } from "react-hook-form";
 
 //---------------Local Imports--------------------
@@ -14,11 +14,13 @@ import SwitchChainButton from "./SwitchChainButton";
 import ApproveButton from "./ApproveButton";
 import RegisterButton from "./RegisterButton";
 import { SelectedTokenType, useRegisterStore } from "@/stores/useRegisterStore";
-import { useEffect, useState } from "react";
 import RefreshAccountButton from "./RefreshAccountButton";
 
 const RegisterButtonContainer = () => {
   const [parentAddress, setParentAddress] = useState<Address | string>("");
+  const { setAllowance, isValidChain } = useRegisterStore();
+  const { watch } = useFormContext();
+
   const {
     address,
     isConnecting,
@@ -26,9 +28,8 @@ const RegisterButtonContainer = () => {
     isDisconnected,
     connector: activeConnector,
   } = useAccount();
-  const { watch } = useFormContext();
-  const { setAllowance, isValidChain } = useRegisterStore();
   const selectedTkn: SelectedTokenType = watch("token");
+
   const tokenToCheckAllowanceFor =
     selectedTkn === "self" ? SELF_TKN_ADDR : PAY_TKN_ADDRESSES[selectedTkn];
 
@@ -48,27 +49,25 @@ const RegisterButtonContainer = () => {
     setAllowance(data);
   }, [data, setAllowance]);
 
-  useEffect(() => {
-    // listen to updateAccount event from top frame
-    const handleUpdateAccount = ({ data }: MessageEvent) => {
-      if (data.type === "updateAccount") setParentAddress(data.account);
-    };
-    window.addEventListener("message", handleUpdateAccount);
+  // useEffect(() => {
+  //   // listen to updateAccount event from top frame
+  //   const handleUpdateAccount = ({ data }: MessageEvent) => {
+  //     if (data.type === "updateAccount") setParentAddress(data.account);
+  //   };
+  //   window.addEventListener("message", handleUpdateAccount);
 
-    return () => window.removeEventListener("message", handleUpdateAccount);
-  }, []);
+  //   return () => window.removeEventListener("message", handleUpdateAccount);
+  // }, []);
 
   const isNotConnected = isDisconnected || isConnecting;
   const isNotApproved = isConnected && data < 10000;
 
   const isAddressDifferent = address !== parentAddress;
+  const isUsingCorrectConnector =
+    activeConnector?.id === "injected" || activeConnector?.id === "eip6963";
   if (isNotConnected) return <ConnectButton />;
-  if (
-    parentAddress &&
-    isAddressDifferent &&
-    (activeConnector?.id === "injected" || activeConnector?.id === "eip6963")
-  )
-    return <RefreshAccountButton />;
+  // if (parentAddress && isAddressDifferent && isUsingCorrectConnector)
+  //   return <RefreshAccountButton />;
   if (!isValidChain) return <SwitchChainButton />;
   if (isNotApproved) return <ApproveButton />;
 
