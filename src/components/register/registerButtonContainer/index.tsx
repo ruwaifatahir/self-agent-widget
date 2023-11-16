@@ -49,15 +49,15 @@ const RegisterButtonContainer = () => {
     setAllowance(data);
   }, [data, setAllowance]);
 
-  // useEffect(() => {
-  //   // listen to updateAccount event from top frame
-  //   const handleUpdateAccount = ({ data }: MessageEvent) => {
-  //     if (data.type === "updateAccount") setParentAddress(data.account);
-  //   };
-  //   window.addEventListener("message", handleUpdateAccount);
+  useEffect(() => {
+    // listen to updateAccount event from top frame
+    const handleUpdateAccount = ({ data }: MessageEvent) => {
+      if (data.type === "updateAccount") setParentAddress(data.account);
+    };
+    window.addEventListener("message", handleUpdateAccount);
 
-  //   return () => window.removeEventListener("message", handleUpdateAccount);
-  // }, []);
+    return () => window.removeEventListener("message", handleUpdateAccount);
+  }, []);
 
   const isNotConnected = isDisconnected || isConnecting;
   const isNotApproved = isConnected && data < 10000;
@@ -66,8 +66,8 @@ const RegisterButtonContainer = () => {
   const isUsingCorrectConnector =
     activeConnector?.id === "injected" || activeConnector?.id === "eip6963";
   if (isNotConnected) return <ConnectButton />;
-  // if (parentAddress && isAddressDifferent && isUsingCorrectConnector)
-  //   return <RefreshAccountButton />;
+  if (parentAddress && isAddressDifferent && isUsingCorrectConnector)
+    return <RefreshAccountButton />;
   if (!isValidChain) return <SwitchChainButton />;
   if (isNotApproved) return <ApproveButton />;
 

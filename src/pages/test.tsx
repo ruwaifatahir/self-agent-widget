@@ -24,16 +24,16 @@ interface IframeRendererProps {
 }
 
 const IframeRenderer = ({ isInjectedWallet, address }: IframeRendererProps) => {
-  //   useEffect(() => {
-  //     if (!isInjectedWallet) return;
+  useEffect(() => {
+    if (!isInjectedWallet) return;
 
-  //     setTimeout(() => {
-  //       document.querySelector("iframe")?.contentWindow?.postMessage(
-  //         { type: "updateAccount", account: address },
-  //         "*" // replace it with the url of the iframe later
-  //       );
-  //     }, 2000);
-  //   }, [address, isInjectedWallet]);
+    setTimeout(() => {
+      document.querySelector("iframe")?.contentWindow?.postMessage(
+        { type: "updateAccount", account: address },
+        "*" // replace it with the url of the iframe later
+      );
+    }, 2000);
+  }, [address, isInjectedWallet]);
 
   let iframeUrl;
   const environment = process.env.NODE_ENV;
