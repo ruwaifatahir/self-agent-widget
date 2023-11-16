@@ -18,7 +18,7 @@ pnpm dev
 
 Before starting make sure you are verified Self agent.
 
-## Using Wagmi and Viem
+## Using Wagmi
 
 First, create an IframeRenderer component to embed the Self agent widget into your application via an `<iframe>`. It's responsible for rendering the widget and facilitating communication between your application and the widget.
 
@@ -59,7 +59,7 @@ The useEffect hook in the IframeRenderer component is used for sending the conne
 
 **Conclusion:** The purpose is to synchronize the connected account between your application and the widget.
 
-Now let's just pass the boolean indicating if wallet is injected or not and address of connected user. 
+Now let's just pass the boolean indicating if the wallet is injected or not and the address of the connected user. 
 
 ```typescript
   const { connector, address } = useAccount();
@@ -73,7 +73,7 @@ Now let's just pass the boolean indicating if wallet is injected or not and addr
 ```
 
 
-Check the entire code for widget integration [here](https://github.com/selfcrypto/self-examples/tree/main/agent-widget-integration/wagmi-viem)
+Check the entire code for widget integration [here](https://github.com/selfcrypto/self-examples/tree/main/agent-widget-integration/with-wagmi)
 
 ## Add new payment token
 
