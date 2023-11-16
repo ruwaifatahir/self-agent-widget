@@ -60,7 +60,7 @@ The useEffect hook in the IframeRenderer component is used for sending the conne
 Now let's just pass the boolean indicating if wallet is injected or not and address of connected user.
 
 ```typescript
-  const { connector } = useAccount();
+  const { connector, address } = useAccount();
 
    <IframeRenderer
         address={address as Address}
