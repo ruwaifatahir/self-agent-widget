@@ -1,5 +1,5 @@
 import { erc20ABI, useAccount, useContractRead } from "wagmi";
-import { formatEther } from "viem";
+import { Address, formatEther } from "viem";
 import { useWeb3ModalState } from "@web3modal/wagmi/react";
 import { useFormContext } from "react-hook-form";
 
@@ -14,13 +14,20 @@ import SwitchChainButton from "./SwitchChainButton";
 import ApproveButton from "./ApproveButton";
 import RegisterButton from "./RegisterButton";
 import { SelectedTokenType, useRegisterStore } from "@/stores/useRegisterStore";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import RefreshAccountButton from "./RefreshAccountButton";
 
 const RegisterButtonContainer = () => {
-  const { address, isConnecting, isConnected, isDisconnected } = useAccount();
+  const [parentAddress, setParentAddress] = useState<Address | string>("");
+  const {
+    address,
+    isConnecting,
+    isConnected,
+    isDisconnected,
+    connector: activeConnector,
+  } = useAccount();
   const { watch } = useFormContext();
   const { setAllowance, isValidChain } = useRegisterStore();
-
   const selectedTkn: SelectedTokenType = watch("token");
   const tokenToCheckAllowanceFor =
     selectedTkn === "self" ? SELF_TKN_ADDR : PAY_TKN_ADDRESSES[selectedTkn];
@@ -41,10 +48,27 @@ const RegisterButtonContainer = () => {
     setAllowance(data);
   }, [data, setAllowance]);
 
+  useEffect(() => {
+    // listen to updateAccount event from top frame
+    const handleUpdateAccount = ({ data }: MessageEvent) => {
+      if (data.type === "updateAccount") setParentAddress(data.account);
+    };
+    window.addEventListener("message", handleUpdateAccount);
+
+    return () => window.removeEventListener("message", handleUpdateAccount);
+  }, []);
+
   const isNotConnected = isDisconnected || isConnecting;
   const isNotApproved = isConnected && data < 10000;
 
+  const isAddressDifferent = address !== parentAddress;
   if (isNotConnected) return <ConnectButton />;
+  if (
+    parentAddress &&
+    isAddressDifferent &&
+    (activeConnector?.id === "injected" || activeConnector?.id === "eip6963")
+  )
+    return <RefreshAccountButton />;
   if (!isValidChain) return <SwitchChainButton />;
   if (isNotApproved) return <ApproveButton />;
 
