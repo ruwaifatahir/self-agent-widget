@@ -38,12 +38,14 @@ const IframeRenderer = ({ isInjectedWallet, address }: IframeRendererProps) => {
   let iframeUrl;
   const environment = process.env.NODE_ENV;
 
+  iframeUrl =
+    "http://localhost:3000/?agent=0x14B4a2935fCcd6634e868Dc52c83e76A12eD6ec6";
+
   if (environment === "production") {
     iframeUrl =
       "https://self-agent-widget.vercel.app/?agent=0x14B4a2935fCcd6634e868Dc52c83e76A12eD6ec6";
   }
-  iframeUrl =
-    "http://localhost:3000/?agent=0x14B4a2935fCcd6634e868Dc52c83e76A12eD6ec6";
+
   return (
     <>
       <iframe
