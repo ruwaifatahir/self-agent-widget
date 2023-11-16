@@ -33,6 +33,7 @@ const IframeRenderer: React.FC<IframeRendererProps> = ({
 }) => {
   useEffect(() => {
     if (!isInjectedWallet) return;
+    if (!address) return;
 
     const timer = setTimeout(() => {
       document.querySelector("iframe")?.contentWindow?.postMessage(
