@@ -40,9 +40,9 @@ const metadata = {
   url: "https://web3modal.com",
   icons: ["https://avatars.githubusercontent.com/u/37784886"],
 };
-
-const width = window.parent.innerWidth;
-const isMobile = width <= 640;
+const isWindow = typeof window !== "undefined";
+const width = isWindow && window.parent.innerWidth;
+const isMobile = width && width <= 640;
 
 const connectors = isMobile
   ? [
