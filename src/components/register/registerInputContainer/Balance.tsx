@@ -2,7 +2,6 @@ import { SelectedTokenType, useRegisterStore } from "@/stores/useRegisterStore";
 import { PAY_TKN_ADDRESSES, SELF_TKN_ADDR } from "@/utils/constants/addresses";
 import { formatBigIntToNumber } from "@/utils/helpers";
 import { Text } from "@chakra-ui/react";
-import { useWeb3ModalState } from "@web3modal/wagmi/react";
 import { useFormContext } from "react-hook-form";
 import { useAccount, useBalance } from "wagmi";
 

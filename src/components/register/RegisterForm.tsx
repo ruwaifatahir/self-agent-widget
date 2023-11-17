@@ -21,22 +21,19 @@ import {
   SELF_NFT_ADDR,
 } from "@/utils/constants/addresses";
 import { selfAddonAbi } from "@/abi/selfAddonAbi";
-import { useWeb3ModalState } from "@web3modal/wagmi/react";
 import { useRouter } from "next/router";
 import { selfNftAbi } from "@/abi/selfNftAbi";
 
-const CHAIN_ID = process.env.NEXT_PUBLIC_NETWORK_CHAIN_ID;
+const CHAIN_ID = process.env.NEXT_PUBLIC_NETWORK_CHAIN_ID!;
 
 const RegisterForm = () => {
   const methods = useForm<{ name: string; token: SelectedTokenType }>({
     mode: "onChange",
   });
 
-  const { address, isConnected } = useAccount();
+  const { address, isConnected, connector } = useAccount();
   const { setRegistrationStatus, setIsValidChain, setOwnedNames } =
     useRegisterStore();
-
-  const { selectedNetworkId } = useWeb3ModalState();
 
   const { setColorMode } = useColorMode();
 
@@ -89,8 +86,10 @@ const RegisterForm = () => {
   }, [setRegistrationStatus, isRegistering, isRegisterDisabled]);
 
   useEffect(() => {
-    setIsValidChain(selectedNetworkId == CHAIN_ID);
-  }, [selectedNetworkId, setIsValidChain]);
+    connector?.getChainId().then((chainId) => {
+      if (+chainId == +CHAIN_ID) setIsValidChain(true);
+    });
+  }, [setIsValidChain, connector]);
 
   useEffect(() => {
     setOwnedNames(ownedNames as string[]);
