@@ -7,6 +7,7 @@ import {
   useContractRead,
   useContractWrite,
   useWaitForTransaction,
+  useNetwork,
 } from "wagmi";
 
 //---------------Local Imports--------------------
@@ -21,7 +22,6 @@ import {
   SELF_NFT_ADDR,
 } from "@/utils/constants/addresses";
 import { selfAddonAbi } from "@/abi/selfAddonAbi";
-import { useWeb3ModalState } from "@web3modal/wagmi/react";
 import { useRouter } from "next/router";
 import { selfNftAbi } from "@/abi/selfNftAbi";
 
@@ -36,7 +36,11 @@ const RegisterForm = () => {
   const { setRegistrationStatus, setIsValidChain, setOwnedNames } =
     useRegisterStore();
 
-  const { selectedNetworkId } = useWeb3ModalState();
+  const { chain } = useNetwork();
+
+  console.log(chain?.id);
+
+  // const { selectedNetworkId } = useWeb3ModalState();
 
   const { setColorMode } = useColorMode();
 
@@ -88,9 +92,9 @@ const RegisterForm = () => {
     setRegistrationStatus({ isRegistering, isRegisterDisabled });
   }, [setRegistrationStatus, isRegistering, isRegisterDisabled]);
 
-  useEffect(() => {
-    setIsValidChain(selectedNetworkId == CHAIN_ID);
-  }, [selectedNetworkId, setIsValidChain]);
+  // useEffect(() => {
+  //   setIsValidChain(selectedNetworkId == CHAIN_ID);
+  // }, [selectedNetworkId, setIsValidChain]);
 
   useEffect(() => {
     setOwnedNames(ownedNames as string[]);
