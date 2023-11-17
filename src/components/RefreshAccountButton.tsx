@@ -1,4 +1,5 @@
-import { Button } from "@chakra-ui/react";
+import { RepeatIcon } from "@chakra-ui/icons";
+import { IconButton } from "@chakra-ui/react";
 
 const RefreshAccountButton = () => {
   const popupHandler = async () => {
@@ -13,15 +14,12 @@ const RefreshAccountButton = () => {
   };
 
   return (
-    <Button
-      w="full"
-      py={{ base: 6, md: 8 }}
-      fontSize={{ base: "sm", md: "lg" }}
-      variant="primary"
+    <IconButton
+      icon={<RepeatIcon />}
+      aria-label="Dark Mode"
+      variant="outline"
       onClick={popupHandler}
-    >
-      Refresh Account
-    </Button>
+    />
   );
 };
 

@@ -1,8 +1,9 @@
 import { formatAnyAddress } from "@/utils/helpers";
-import { Button, HStack, Text, useColorMode } from "@chakra-ui/react";
+import { Button, HStack } from "@chakra-ui/react";
 import { useWeb3Modal, useWeb3ModalState } from "@web3modal/wagmi/react";
 import { useAccount } from "wagmi";
 import ModeSwitcher from "./ModeSwitcher";
+import RefreshAccountButton from "./RefreshAccountButton";
 
 const Navbar = () => {
   const { open } = useWeb3Modal();
@@ -28,6 +29,8 @@ const Navbar = () => {
       </Button>
 
       <ModeSwitcher />
+
+      <RefreshAccountButton />
     </HStack>
   );
 };
