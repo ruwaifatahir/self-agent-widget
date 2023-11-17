@@ -48,13 +48,13 @@ const connectors = isMobile
   ? [
       new WalletConnectConnector({
         chains,
-        options: { projectId, showQrModal: true, metadata },
+        options: { projectId, showQrModal: false, metadata },
       }),
     ]
   : [
       new WalletConnectConnector({
         chains,
-        options: { projectId, showQrModal: true, metadata },
+        options: { projectId, showQrModal: false, metadata },
       }),
       new EIP6963Connector({ chains }),
 
