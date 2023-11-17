@@ -16,11 +16,11 @@ pnpm dev
 
 ## Use the widget
 
-Before starting make sure you are verified Self agent.
+Before starting make sure you are a verified Self agent.
 
-## Using Wagmi
+Integrating the Self Agent widget is as simple as using the `iframe` tag and passing the URL. However, a bug in Metamask causes addresses to become unsynchronized between the iframe and the parent site when switching accounts. To address this issue, incorporate the code from your preferred library (ethers.js, viem, wagmi, etc.) below. This code ensures that the connected account's address is synchronized in both the iframe and the parent app when there is a change in the Metamask account.
 
-First, create an IframeRenderer component to embed the Self agent widget into your application via an `<iframe>`. It's responsible for rendering the widget and facilitating communication between your application and the widget.
+### Using Wagmi
 
 ```typescript
 // IframeRenderer.tsx
@@ -32,16 +32,22 @@ const IframeRenderer: React.FC<IframeRendererProps> = ({
   address,
 }) => {
   useEffect(() => {
-    if (!isInjectedWallet) return;
-    if (!address) return;
+    // If wallet is not connected, don't send the message
+    // If there is no injected wallet, do nothing
+    if (!address || !isInjectedWallet) return;
 
+    // wait 2 seconds for the wallet to be connected and iframe to be ready
+    // send a message to the iframe
     const timer = setTimeout(() => {
+    // message contains address of the currently connected account whenever it changes
+    // This is to sync the account in parent with the account in the widget
       document.querySelector("iframe")?.contentWindow?.postMessage(
         { type: "updateAccount", account: address },
         "*"
       );
     }, 2000);
 
+    // Clear the timeout when the component unmounts or dependencies change
     return () => clearTimeout(timer);
   }, [address, isInjectedWallet]);
 
@@ -55,13 +61,8 @@ const IframeRenderer: React.FC<IframeRendererProps> = ({
 };
 ```
 
-The useEffect hook in the IframeRenderer component is used for sending the connected user address to the widget inside the iframe. This is done to ensure that the widget has the current account address, which is necessary for its functionality. The setTimeout within useEffect introduces a delay, allowing time for the iframe to load and be ready to receive this data. The check for isInjectedWallet ensures that this process only occurs if the connected wallet is injected wallet.
-
-**Conclusion:** The purpose is to synchronize the connected account between your application and the widget.
-
-Now let's just pass the boolean indicating if the wallet is injected or not and the address of the connected user. 
-
 ```typescript
+  //index.tsx
   const { connector, address } = useAccount();
 
    <IframeRenderer
@@ -73,7 +74,73 @@ Now let's just pass the boolean indicating if the wallet is injected or not and 
 ```
 
 
-Check the entire code for widget integration [here](https://github.com/selfcrypto/self-examples/tree/main/agent-widget-integration/with-wagmi)
+Check the entire code for widget integration using wagmi [here](https://github.com/selfcrypto/self-examples/tree/main/agent-widget-integration/with-wagmi)
+
+### Using Ethers
+
+```typescript
+//IframeRenderer.tsx
+import { useEffect } from "react";
+
+// Constants for widget URL and agent address
+const WIDGET_URL = "https://self-agent-widget.vercel.app/";
+const AGENT_ADDRESS = "0x7ffffd377d0030d3a7c558f67407f0ec2c426537";
+
+// TypeScript interface for the component's props
+interface IframeRendererProps {
+  isInjectedWallet: boolean;
+  address: string;
+}
+
+// The IframeRenderer component
+const IframeRenderer: React.FC<IframeRendererProps> = ({
+  isInjectedWallet,
+  address,
+}) => {
+  useEffect(() => {
+    // If wallet is not connected, don't send the message
+    // If there is no injected wallet, do nothing
+    if (!address || !isInjectedWallet) return;
+
+    // wait 2 seconds for the wallet to be connected and iframe to be ready
+    // send a message to the iframe
+    const timer = setTimeout(() => {
+      // message contains address of the currently connected account whenever it changes
+      // This is to sync the account in parent with the account in the widget
+      document
+        .querySelector("iframe")
+        ?.contentWindow?.postMessage(
+          { type: "updateAccount", account: address },
+          "*"
+        );
+    }, 2000);
+
+    // Clear the timeout when the component unmounts or dependencies change
+    return () => clearTimeout(timer);
+  }, [address, isInjectedWallet]);
+
+  // Render the iframe element
+  return (
+    <iframe
+      height={700}
+      width={400}
+      src={`${WIDGET_URL}?agent=${AGENT_ADDRESS}`}
+      title="Self Agent Widget"
+      // TODO: Replace the src attribute with the URL of the iframe if needed
+    />
+  );
+};
+
+export default IframeRenderer;
+```
+
+```typescript
+//App.tsx
+{/* ethers js only implements injected wallet */}
+{/* just pass connected address in IframeRenderer and you are good to go */}
+<IframeRenderer address={address} isInjectedWallet={true} />
+```
+Check the entire code for widget integration using ethers.js [here](https://github.com/selfcrypto/self-examples/tree/main/agent-widget-integration/with-ethers)
 
 ## Add new payment token
 
