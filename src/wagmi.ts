@@ -15,6 +15,7 @@ const environment = process.env.NODE_ENV;
 const supportedChains = environment == "development" ? [sepolia] : [bsc];
 const defaultChain = supportedChains[0];
 
+
 // 1. Get projectId
 const projectId = process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID!;
 
@@ -40,36 +41,22 @@ const metadata = {
   url: "https://web3modal.com",
   icons: ["https://avatars.githubusercontent.com/u/37784886"],
 };
-const isWindow = typeof window !== "undefined";
-const width = isWindow && window.parent.innerWidth;
-const isMobile = width && width <= 640;
-
-const connectors = isMobile
-  ? [
-      new WalletConnectConnector({
-        chains,
-        options: { projectId, showQrModal: false, metadata },
-      }),
-    ]
-  : [
-      new WalletConnectConnector({
-        chains,
-        options: { projectId, showQrModal: false, metadata },
-      }),
-      new EIP6963Connector({ chains }),
-
-      new InjectedConnector({ chains, options: { shimDisconnect: true } }),
-      new CoinbaseWalletConnector({
-        chains,
-        options: { appName: metadata.name },
-      }),
-    ];
 
 export const wagmiConfig = createConfig({
   autoConnect: true,
 
-  connectors,
-
+  connectors: [
+    new WalletConnectConnector({
+      chains,
+      options: { projectId, showQrModal: false, metadata },
+    }),
+    new EIP6963Connector({ chains }),
+    new InjectedConnector({ chains, options: { shimDisconnect: true } }),
+    new CoinbaseWalletConnector({
+      chains,
+      options: { appName: metadata.name },
+    }),
+  ],
   publicClient,
   webSocketPublicClient,
 });

@@ -11,9 +11,6 @@ const Navbar = () => {
 
   const { address, isConnected, isConnecting, isReconnecting } = useAccount();
 
-  const width = window.parent.innerWidth;
-  const isMobile = width <= 640;
-
   return (
     <HStack w="full" maxW={{ base: "95%", lg: "40%" }} mt={5}>
       <Button
@@ -31,7 +28,7 @@ const Navbar = () => {
         {isConnected ? formatAnyAddress(address as string) : "Connect"}
       </Button>
       <ModeSwitcher />
-      {!isMobile && <RefreshAccountButton />}
+      <RefreshAccountButton />
     </HStack>
   );
 };
