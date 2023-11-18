@@ -36,7 +36,6 @@ function ConnectWalletModal() {
     })(navigator.userAgent || navigator.vendor || window.opera);
     return check;
   }
-  console.log("ismobile", isMobile());
   return (
     <>
       <Modal

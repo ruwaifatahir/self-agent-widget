@@ -9,7 +9,6 @@ const Navbar = () => {
   const { address, isConnected, isConnecting } = useAccount();
   const { disconnect } = useDisconnect();
   const { connector } = useAccount();
-  console.log("connector", connector?.id);
   const setIsWalletModalOpen = useWalletModalStore(
     (state) => state.setIsWalletModalOpen
   );

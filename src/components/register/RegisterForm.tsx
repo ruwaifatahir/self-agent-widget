@@ -6,6 +6,7 @@ import {
   useAccount,
   useContractRead,
   useContractWrite,
+  useNetwork,
   useWaitForTransaction,
 } from "wagmi";
 
@@ -32,12 +33,14 @@ const RegisterForm = () => {
   });
 
   const { address, isConnected, connector } = useAccount();
+  const { chain } = useNetwork();
   const { setRegistrationStatus, setIsValidChain, setOwnedNames } =
     useRegisterStore();
 
   const { setColorMode } = useColorMode();
 
   const router = useRouter();
+
 
   const selectedTkn: SelectedTokenType = methods.watch("token");
   const nameToRegister = methods.watch("name");
@@ -86,10 +89,9 @@ const RegisterForm = () => {
   }, [setRegistrationStatus, isRegistering, isRegisterDisabled]);
 
   useEffect(() => {
-    connector?.getChainId().then((chainId) => {
-      if (+chainId == +CHAIN_ID) setIsValidChain(true);
-    });
-  }, [setIsValidChain, connector]);
+    if (chain?.id == +CHAIN_ID) setIsValidChain(true);
+    else setIsValidChain(false);
+  }, [setIsValidChain, chain?.id]);
 
   useEffect(() => {
     setOwnedNames(ownedNames as string[]);
