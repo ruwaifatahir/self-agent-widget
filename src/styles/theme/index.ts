@@ -8,8 +8,8 @@ export const theme = extendTheme({
     colors: {
       background: {
         default: "white",
-        _dark: "black",
-        
+        _dark: "#1B2129",
+
       },
     },
   },
@@ -42,5 +42,6 @@ export const theme = extendTheme({
         },
       },
     },
+
   },
 });

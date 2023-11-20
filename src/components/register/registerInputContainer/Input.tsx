@@ -37,7 +37,6 @@ const Input = () => {
     };
     triggerFieldValidation();
   }, [debouncedName, trigger]);
-
   return (
     <InputGroup>
       <ChakraInput
@@ -50,6 +49,7 @@ const Input = () => {
           isSubmitting || isRegistering || allowance < 16000 || !isValidChain
         }
         errorBorderColor="red.300"
+        backgroundColor={"rgba(255, 255, 255, 0.10)"}
       />
       <AssetSelector />
     </InputGroup>
