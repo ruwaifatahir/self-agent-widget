@@ -33,7 +33,7 @@ const RegisterForm = () => {
     mode: "onChange",
   });
 
-  const { address, isConnected, connector } = useAccount();
+  const { address, isConnected } = useAccount();
   const { chain } = useNetwork();
   const { setRegistrationStatus, setIsValidChain, setOwnedNames } =
     useRegisterStore();
@@ -121,7 +121,7 @@ const RegisterForm = () => {
       >
         <RegisterInputContainer />
         <RegisterButtonContainer />
-        <ViewNames />
+        {isConnected && <ViewNames />}
       </VStack>
     </FormProvider>
   );
