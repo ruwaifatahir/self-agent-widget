@@ -43,7 +43,7 @@ function ConnectWalletModal() {
         onClose={() => setIsWalletModalOpen(false)}
       >
         <ModalOverlay />
-        <ModalContent width={"95%"} maxWidth={"500px"}>
+        <ModalContent width={"95%"} maxWidth={"350px"}>
           <ModalHeader>Connect Wallet</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={5}>

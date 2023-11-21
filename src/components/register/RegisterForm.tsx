@@ -24,6 +24,7 @@ import {
 import { selfAddonAbi } from "@/abi/selfAddonAbi";
 import { useRouter } from "next/router";
 import { selfNftAbi } from "@/abi/selfNftAbi";
+import ViewNames from "./registerInputContainer/ViewNames";
 
 const CHAIN_ID = process.env.NEXT_PUBLIC_NETWORK_CHAIN_ID!;
 
@@ -32,7 +33,7 @@ const RegisterForm = () => {
     mode: "onChange",
   });
 
-  const { address, isConnected, connector } = useAccount();
+  const { address, isConnected } = useAccount();
   const { chain } = useNetwork();
   const { setRegistrationStatus, setIsValidChain, setOwnedNames } =
     useRegisterStore();
@@ -40,7 +41,6 @@ const RegisterForm = () => {
   const { setColorMode } = useColorMode();
 
   const router = useRouter();
-
 
   const selectedTkn: SelectedTokenType = methods.watch("token");
   const nameToRegister = methods.watch("name");
@@ -121,6 +121,7 @@ const RegisterForm = () => {
       >
         <RegisterInputContainer />
         <RegisterButtonContainer />
+        {isConnected && <ViewNames />}
       </VStack>
     </FormProvider>
   );
