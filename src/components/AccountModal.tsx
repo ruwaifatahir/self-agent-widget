@@ -13,6 +13,7 @@ import {
   ModalOverlay,
   Text,
   useColorMode,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { useAccount, useBalance, useDisconnect } from "wagmi";
 import { CloseIcon, RepeatIcon } from "@chakra-ui/icons";
@@ -54,6 +55,8 @@ function AccountModal() {
     setIsAccountModalOpen(false);
   };
 
+  const imgBgColor = useColorModeValue("#CDCDCD", "#38424E");
+  const btnBgColor = useColorModeValue("#D8D8D8", "#4a546180");
   return (
     <>
       <Modal
@@ -80,7 +83,7 @@ function AccountModal() {
                 width={"54px"}
                 height={"54px"}
                 borderRadius={"50%"}
-                backgroundColor={colorMode === "light" ? "#CDCDCD" : "#38424E"}
+                backgroundColor={imgBgColor}
                 display={"flex"}
                 justifyContent={"center"}
                 alignItems={"center"}
@@ -106,9 +109,7 @@ function AccountModal() {
                   display="flex"
                   flexDirection={"column"}
                   alignItems={"center"}
-                  backgroundColor={
-                    colorMode === "light" ? "#D8D8D8" : "#4a546180"
-                  }
+                  backgroundColor={btnBgColor}
                   onClick={popupHandler}
                   height={"45px"}
                   flex={1}
@@ -124,9 +125,7 @@ function AccountModal() {
                   display="flex"
                   flexDirection={"column"}
                   alignItems={"center"}
-                  backgroundColor={
-                    colorMode === "light" ? "#D8D8D8" : "#4a546180"
-                  }
+                  backgroundColor={btnBgColor}
                   height={"45px"}
                   flex={1}
                   onClick={disconnectWalletHandler}

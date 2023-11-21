@@ -13,6 +13,7 @@ import {
   Text,
   VStack,
   useColorMode,
+  useColorModeValue,
 } from "@chakra-ui/react";
 
 const blockExplorerUrl = process.env.NEXT_PUBLIC_BLOCK_EXPLORER_URL;
@@ -24,7 +25,7 @@ interface Props {
 
 const ViewNameModal = ({ isOpen, onClose }: Props) => {
   const { ownedNames } = useRegisterStore();
-  const { colorMode } = useColorMode();
+  const headingTextColor = useColorModeValue("#767676", "#fff");
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} size={{ base: "xs", md: "sm" }}>
@@ -48,10 +49,10 @@ const ViewNameModal = ({ isOpen, onClose }: Props) => {
             textAlign={"center"}
             fontSize={"20px"}
             fontWeight={600}
-            color={colorMode === "light" ? "#767676" : "#fff"}
+            color={headingTextColor}
             borderBottom={"2px"}
             borderStyle={"solid"}
-            borderColor={colorMode === "light" ? "#767676" : "#fff"}
+            borderColor={headingTextColor}
             width={"fit-content"}
             lineHeight={"20px"}
           >
@@ -75,32 +76,35 @@ export default ViewNameModal;
 
 const NameBox = ({ name }: { name: string }) => {
   const { colorMode } = useColorMode();
+  const nameBoxBgColor = useColorModeValue(
+    "rgba(225, 225, 225, 0.10)",
+    "rgba(74, 84, 97, 0.10)"
+  );
+  const nameBoxBorder = useColorModeValue(
+    "1px solid #CDCDCD",
+    "1px solid #5A636C"
+  );
+
+  const nameBoxShadow = useColorModeValue(
+    "0px 0px 5px 0px rgba(141, 137, 137, 0.50)",
+    "0px 0px 5px 0px #34373D"
+  );
+
+  const nameTextColor = useColorModeValue("#909090", "#B8B8B8");
 
   return (
     <Box
       width={"100%"}
       borderRadius={"5px"}
-      border={colorMode === "light" ? "1px solid #CDCDCD" : "1px solid #5A636C"}
-      background={
-        colorMode === "light"
-          ? "rgba(225, 225, 225, 0.10)"
-          : "rgba(74, 84, 97, 0.10)"
-      }
-      boxShadow={
-        colorMode === "light"
-          ? "0px 0px 5px 0px rgba(141, 137, 137, 0.50)"
-          : "0px 0px 5px 0px #34373D"
-      }
+      border={nameBoxBorder}
+      background={nameBoxBgColor}
+      boxShadow={nameBoxShadow}
       py={"14px"}
       px={5}
       display={"flex"}
       justifyContent={"space-between"}
     >
-      <Text
-        fontSize={"16px"}
-        fontWeight={500}
-        color={colorMode === "light" ? "#909090" : "#B8B8B8"}
-      >
+      <Text fontSize={"16px"} fontWeight={500} color={nameTextColor}>
         {name}
       </Text>
       <a
